@@ -18,37 +18,17 @@ Hence, if you need to have audio with the highest bitrate possible - extract `dt
 
 ### Extracting Audio
 
-1. **Check what audio channels exist in `.mkv` file.** 
+1. **Check what audio streams exist in `.mkv` file.** 
 
-   You can do this in two ways. Automatically with the help of `grep`:
    ```shell
-   ffprobe \
+   ffmpeg \
      -hide_banner \
      -i movie_filename.mkv \
      2>&1 | \
    grep -i "audio"
    ```
-   ...or manually, which is more combersome:
-   ```shell
-   ffmpeg \
-     -hide_banner \
-     -i movie_filename.mkv 
+   The output will be as follows:
    ```
-   ... now manually scroll searching for words "Audio". There should be at least one audio track.
-   
-   Depending on a particular `mkv` file, the output will look as follows:
-   ```
-       ...
-       Stream #0:5(eng): Audio: dts (DTS), 48000 Hz, 5.1(side), fltp, 1536 kb/s # <--- .dts Audio Stream
-       Metadata:
-         title           : DTS 5.1 @ 1536 kbps |Оригинал|      
-       Stream #0:6(rus): Subtitle: subrip                                       # <--- Subtitle Stream
-       Metadata:
-         title           : forced
-       ...
-   
-   # or more concise, like this:
-   
    Stream #0:1(rus): Audio: dts (DTS), 48000 Hz, 5.1(side), fltp, 1536 kb/s (default)
    Stream #0:2(rus): Audio: ac3, 48000 Hz, mono, fltp, 224 kb/s
    ```
@@ -113,8 +93,11 @@ Hence, if you need to have audio with the highest bitrate possible - extract `dt
    > The channels available for possible extraction in `ffmpeg` include the following: `ffmpeg -layouts -hide_banner`
    >
    > **Using `ffprobe`**.
-   >
-     
+   > To determine the audio channels available to extract from your infile, use `ffprobe` as follows:
+   > ```
+   > /path/to/ffprobe -i infile -hide_banner 2>&1 | egrep "^I|^ "
+   > ```
+   > The stream marked in red is the stream you will need to examine. 
    
 
 
