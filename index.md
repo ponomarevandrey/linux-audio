@@ -18,6 +18,18 @@ My articles about working with audio in Linux.
 
 
 
+# Audio Editors
+
+Audacity
+
+* Install
+  
+  ```sh
+  flatpak install flathub org.audacityteam.Audacity
+  ```
+
+
+
 # Audio File Management
 
 ## `kid3`
@@ -48,13 +60,13 @@ kid3-cli "/mnt/DE68EB6A64EB53BK/music_archive" \
 
 ## `ffmpeg`
 
-**IMPORTANT**. DO NOT USE IT FOR EDITING ID3 TAGS. INSTEAD USER `kid3-cli`. It is way more convenient for handling metadata across all types of audio files.
+**IMPORTANT**. DO NOT USE IT FOR EDITING ID3 TAGS. INSTEAD USE `kid3-cli`. It is way more convenient for handling metadata across all types of audio files.
 
 * [How to install](https://linuxize.com/post/how-to-install-ffmpeg-on-ubuntu-18-04/)
 
 
 
-### How-to Tips
+### How-to
 
 * **Convert `.wv` to `.flac`:**
   ```
@@ -91,7 +103,21 @@ kid3-cli "/mnt/DE68EB6A64EB53BK/music_archive" \
     -hide_banner \
     -loglevel error
   ```
+
+* **[Split an audio file into multiple files?](https://unix.stackexchange.com/a/283547))**
+  ```
+  ffmpeg -i somefile.mp3 -f segment -segment_time 3 -c copy out%03d.mp3
+  ```
+  * `-segment_time` is the amount of time you want per each file (in seconds).
+  * `%03d` is for a sequence, it means 3 digits, like `img001.pn`g, `img002.png`, etc.
   
+  > **TIP** 1 hour = 3600 seconds
+
+
+* **Converrt to lower bitrate**
+  ```
+  ffmpeg -i input.mp3 -codec:a libmp3lame -b:a 128k output.mp3
+  ```
 
 
 ## `flac` 
@@ -161,20 +187,26 @@ Similar to Traktor but open-source.
 
 ## Bitwig \[Commercial\]
 
-* Install:
-  ```shell
-  # Install Flatpak package manager to be able to execute `.flatpak` file
-  sudo apt install flatpak
+Depending on extension of your bitwig sintallation file you will install it either with `flaptack` or `dpkg` package manager.
 
-  flatpak install "Bitwig Studio 4.3.flatpak"
-  ```
+Regarding `dpkg`, install everything as usual.
 
-* Uninstall:
-  ```shell
-  sudo apt remove bitwig-studio
+* **Install/uninstall Bitwig with flatpack:**
+  1. Install Flatpak package manager to be able to execute `.flatpak` file: `sudo apt install flatpak`
+  2. Install Bitwig: `flatpak install "Bitwig Studio 4.3.flatpak"`
+  3. **Uninstall Bitwig: `sudo apt remove bitwig-studio`
+  4. Uninstall flatpack: `sudo apt remove flatpak`
 
-  sudo apt remove flatpak
-  ```
+* **Activation.** The doc for the crack instructs: 
+  > Replace "bitwig.jar" from the FLARE folder to "/opt/bitwig-studio/bin/"
+
+  You should put this file not in your Ubuntu profile's `.../douglasquaid/opt`, but in system-wide `/opt`, like this: `sudo cp ./bitwig.jar /opt/bitwig-studio/bin`
+
+* **Deleting a Bitwig Activation file on my computer**
+  1. `cd home/[username]/.BitwigStudio/`
+  2. Find and delete any files called `.activation-1-1` or with other numbers
+  3. Restart Bitwig Studio
+
 
 
 ## `ardour`
@@ -197,6 +229,13 @@ Similar to Traktor but open-source.
 * [Focusrite Scarlett 2i2 working flawlessly on Ubuntu with JACK](https://dragly.org/2014/01/12/focusrite-scarlett-2i2-flawlessly-working-on-ubuntu-with-jack/)
 * Also check out `jack_mixer` (haven't explored it yet)
 
+
+
+## `pipewire`
+
+PulseAudio replacement to get read of delays.
+
+Read [here](./pipewire.md)
 
 
 # Misc
