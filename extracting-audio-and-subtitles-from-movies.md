@@ -127,6 +127,13 @@ ffmpeg \
   -c copy movie_filename_eng-sub.srt
 ```
 
+## Tips
+
+* **ac3 to wav** Convert ac3 to wav with ffmpeg: 
+  ```
+  ffmpeg -i audio.ac3 audio.wav
+  ```
+
 
 # Sources
 
